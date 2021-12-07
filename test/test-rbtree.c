@@ -236,11 +236,13 @@ static bool color_traverse(const node_t *p, const color_t parent_color,
       touch_nil = true;
       max_black_depth = black_depth;
     } else if (black_depth != max_black_depth) {
+      printf("here1 !!\n\n");
       return false;
     }
     return true;
   }
   if (parent_color == RBTREE_RED && p->color == RBTREE_RED) {
+    printf("here2 !!\n\n");
     return false;
   }
   int next_depth = ((p->color == RBTREE_BLACK) ? 1 : 0) + black_depth;
