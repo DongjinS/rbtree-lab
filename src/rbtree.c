@@ -32,6 +32,7 @@ void delete_rbtree(rbtree *t)
         return;
     }
     DeleteByPostOrder(t->root, t);
+    free(t->nil);
     free(t);
 }
 
@@ -382,17 +383,17 @@ int rbtree_erase(rbtree *t, node_t *z)
     return 0;
 }
 
-int inorder_rbtree(node_t *root, key_t *res, rbtree *t, int i)
+int inorder_rbtree(node_t *root, key_t *res, const rbtree *t, int i, const size_t n)
 {
-    if (root == t->nil)
+    if (root == t->nil || i>=n)
     {
         return i;
     }
 
-    i = inorder_rbtree(root->left, res, t, i);
+    i = inorder_rbtree(root->left, res, t, i, n);
     res[i] = root->key;
     i += 1;
-    i = inorder_rbtree(root->right, res, t, i);
+    i = inorder_rbtree(root->right, res, t, i, n);
     return i;
 }
 
@@ -403,7 +404,7 @@ int rbtree_to_array(const rbtree *t, key_t *arr, const size_t n)
     {
         return -1;
     }
-    inorder_rbtree(t->root, arr, t, 0);
+    inorder_rbtree(t->root, arr, t, 0, n);
 
     return 0;
 }
